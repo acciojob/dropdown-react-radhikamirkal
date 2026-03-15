@@ -138,15 +138,76 @@ const states = [{
 }];
 
 
-function App() 
-{
-	// Do not alter/remove main div
-	return (
-	<div id="main">
-		
-	</div>
-	);
-}
+function App() {
 
+  const [stateIndex, setStateIndex] = useState(0);
+  const [cityIndex, setCityIndex] = useState(0);
+  const [landmarkIndex, setLandmarkIndex] = useState(0);
+
+  const state = states[stateIndex];
+  const city = state.city[cityIndex];
+  const landmark = city.landmarks[landmarkIndex];
+
+  const handleStateChange = (e) => {
+    const index = Number(e.target.value);
+    setStateIndex(index);
+    setCityIndex(0);
+    setLandmarkIndex(0);
+  };
+
+  const handleCityChange = (e) => {
+    const index = Number(e.target.value);
+    setCityIndex(index);
+    setLandmarkIndex(0);
+  };
+
+  const handleLandmarkChange = (e) => {
+    setLandmarkIndex(Number(e.target.value));
+  };
+
+  return (
+    <div id="main">
+
+      {/* STATE DROPDOWN */}
+      <select id="state" value={stateIndex} onChange={handleStateChange}>
+        {states.map((s, index) => (
+          <option key={index} value={index}>
+            {s.name}
+          </option>
+        ))}
+      </select>
+
+      <div id="state-name">{state.name}</div>
+      <div id="state-description">{state.description}</div>
+
+
+      {/* CITY DROPDOWN */}
+      <select id="city" value={cityIndex} onChange={handleCityChange}>
+        {state.city.map((c, index) => (
+          <option key={index} value={index}>
+            {c.name}
+          </option>
+        ))}
+      </select>
+
+      <div id="city-name">{city.name}</div>
+      <div id="city-description">{city.description}</div>
+
+
+      {/* LANDMARK DROPDOWN */}
+      <select id="landmark" value={landmarkIndex} onChange={handleLandmarkChange}>
+        {city.landmarks.map((l, index) => (
+          <option key={index} value={index}>
+            {l.name}
+          </option>
+        ))}
+      </select>
+
+      <div id="landmark-name">{landmark.name}</div>
+      <div id="landmark-description">{landmark.description}</div>
+
+    </div>
+  );
+}
 
 export default App;
